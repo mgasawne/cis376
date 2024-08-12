@@ -1,10 +1,30 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>homepage goes here</h1>
+    <h1>Homepage</h1>
     {% for post in posts %}
-    <div class="alert alert-primary" role="alert">
-        {{ post }}
-    </div><br/><br/>
+        <div class="alert alert-primary" role="alert">
+            <h2>{{ post.header }}</h2>
+            <p>{{ post.body }}</p>
+            {% if post.user == user %}
+                <!-- Edit Button -->
+                <a href="{% url 'edit_post' post.pk %}" class="btn btn-warning btn-sm">Edit</a>
+                <!-- Delete Button -->
+                <form action="{% url 'delete_post' post.pk %}" method="post" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                </form>
+            {% endif %}
+            <!-- Comment Button -->
+            <a href="{% url 'comment_post' post.pk %}" class="btn btn-primary btn-sm">Comment</a>
+
+            <!-- Display Comments -->
+            <h4>Comments:</h4>
+            {% for comment in post.comments.all %}
+                <p>{{ comment.user.username }}: {{ comment.body }}</p>
+            {% empty %}
+                <p>No comments yet.</p>
+            {% endfor %}
+        </div><br/><br/>
     {% endfor %}
 {% endblock %}

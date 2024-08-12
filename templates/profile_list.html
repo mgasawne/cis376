@@ -1,34 +1,25 @@
-{% extends 'base.html' %}
-
-{% block content %}
-    <h1>profile list</h1>
-
-<br/>
-{% if profiles %}
-    {% for profile in profiles %}
-
-    <!doctype html/ code from: https://getbootstrap.com/docs/5.3/components/card/>
-    <!doctype html/ will have to edit card or allow user pictures later/maybe add to doc due Aug 11>
-
-    <div class="card mb-3" style="max-width: 540px;">
-        <div class="row g-0">
-          <div class="col-md-4">
-            <img src="..." class="img-fluid rounded-start" alt="...">
-          </div>
-          <div class="col-md-8">
-            <div class="card-body">
-              <h5 class="card-title">{{ profile.user.username }}</h5>
-              <p class="card-text"><a href = "{% url 'profile' profile.user.id %}">@{{ profile.user.username|lower }}</a></p>
-              <br/><br/>
-              <p class="card-text"><small class="text-body-secondary">Last Updated: {{ profile.date_modified }}</small></p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <br/>
-
-    {% endfor %}
-
-{% endif %}
-
-{% endblock %}
+<!-- profile_list.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile List</title>
+</head>
+<body>
+    <h1>All Profiles</h1>
+    {% if profiles %}
+        <ul>
+            {% for profile in profiles %}
+                <li>
+                    <a href="{% url 'profile' profile.user.id %}">
+                        {{ profile.user.username }} - {{ profile.bio }} <!-- Adjust fields as needed -->
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No profiles found.</p>
+    {% endif %}
+</body>
+</html>
